@@ -46,7 +46,19 @@ namespace QsTech.Controllers
             _context.SaveChanges();
             return RedirectToAction("UserProfileView");
         }
-        protected override void Dispose(bool disposing)
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+                return HttpNotFound();
+
+            var user = _context.UserProfiles.FirstOrDefault(u => u.Id == id);
+
+            if (user == null)
+                return HttpNotFound();
+
+            return View("UserInfo", user);
+        }
+            protected override void Dispose(bool disposing)
         {
             _context.Dispose();
         }
