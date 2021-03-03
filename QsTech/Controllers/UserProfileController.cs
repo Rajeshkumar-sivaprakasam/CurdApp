@@ -58,6 +58,21 @@ namespace QsTech.Controllers
 
             return View("UserInfo", user);
         }
+
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+                return HttpNotFound();
+
+            var user = _context.UserProfiles.FirstOrDefault(u => u.Id == id);
+
+            if (user.Id == null)
+                return HttpNotFound();
+            _context.UserProfiles.Remove(user);
+            _context.SaveChanges();
+
+            return RedirectToAction("UserProfileView");
+        }
             protected override void Dispose(bool disposing)
         {
             _context.Dispose();
