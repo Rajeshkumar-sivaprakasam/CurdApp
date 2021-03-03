@@ -24,7 +24,7 @@ namespace QsTech.Controllers
         }
         public  ActionResult UserInfo()
         {
-            return View();
+            return View(new UserProfile { Id = 0 } );
         }
 
         public ActionResult SaveUser(UserProfile userProfile)
