@@ -31,7 +31,20 @@ namespace QsTech.Controllers
         {
             if (!ModelState.IsValid)
                 return View("UserInfo", userProfile);
-            return View();
+            if (userProfile.Id == 0)
+                _context.UserProfiles.Add(userProfile);
+            else
+            {
+                var userFromDb = _context.UserProfiles.FirstOrDefault(u => u.Id == userProfile.Id);
+
+                if (userFromDb == null)
+                    return HttpNotFound();
+                userFromDb.Name = userProfile.Name;
+                userFromDb.Address = userProfile.Address;
+                userFromDb.Age = userProfile.Age;
+            }
+            _context.SaveChanges();
+            return RedirectToAction("UserProfileView");
         }
         protected override void Dispose(bool disposing)
         {
